@@ -1,0 +1,391 @@
+/* Import Google Fonts - Montserrat and Open Sans for a modern look */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap');
+
+:root {
+    /* Color Palette */
+    --primary-color: #E50914; /* Netflix Red - strong and engaging */
+    --secondary-color: #212529; /* Dark for contrasts */
+    --accent-color: #0d6efd; /* Bootstrap Blue for links/buttons */
+    --light-bg: #f8f9fa;
+    --dark-bg: #1a1a1a;
+    --text-color-light: #fefefe;
+    --text-color-dark: #333;
+    --card-bg: #ffffff;
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --border-radius-lg: 12px;
+    --border-radius-md: 8px;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: var(--light-bg);
+    color: var(--text-color-dark);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+/* --- Typography --- */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: var(--secondary-color);
+}
+
+h1 {
+    font-size: 2.8rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: var(--primary-color);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+h2 {
+    font-size: 2.2rem;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+p {
+    font-size: 1rem;
+}
+
+/* --- Navbar --- */
+.navbar {
+    background-color: var(--secondary-color) !important; /* Darker header */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    padding: 1rem 0;
+}
+
+.navbar-brand {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: var(--primary-color) !important;
+    letter-spacing: 1px;
+}
+
+.navbar-nav .nav-link {
+    color: var(--text-color-light) !important;
+    font-weight: 600;
+    margin-left: 1rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--primary-color) !important;
+    transform: translateY(-2px);
+}
+
+/* --- Container & Main Layout --- */
+.container {
+    max-width: 1200px;
+    margin-top: 2.5rem; /* More space from navbar */
+    margin-bottom: 2.5rem;
+}
+
+/* --- Cards (Movies, Admin Panels) --- */
+.card {
+    border: none;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden; /* Ensure rounded corners are applied to children */
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.card-img-top.movie-poster {
+    height: 400px; /* Taller posters */
+    object-fit: cover;
+    width: 100%;
+    border-top-left-radius: var(--border-radius-lg);
+    border-top-right-radius: var(--border-radius-lg);
+}
+
+.card-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--secondary-color);
+}
+
+.card-text.text-muted {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    color: #6c757d !important;
+}
+
+.card-text {
+    font-size: 1rem;
+}
+
+/* --- Buttons --- */
+.btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: var(--border-radius-md);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #c90812; /* Slightly darker red on hover */
+    border-color: #c90812;
+    transform: translateY(-2px);
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+    transform: translateY(-2px);
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: var(--text-color-dark);
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+    color: var(--text-color-dark);
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+    transform: translateY(-2px);
+}
+
+/* --- Forms --- */
+.form-label {
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    border-radius: var(--border-radius-md);
+    padding: 0.75rem 1rem;
+    border: 1px solid #ced4da;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25); /* Bootstrap's focus ring */
+    outline: none;
+}
+
+/* --- List Groups (Schedules, Admin Lists) --- */
+.list-group-item {
+    border-radius: var(--border-radius-md) !important;
+    margin-bottom: 0.75rem;
+    padding: 1.25rem;
+    background-color: var(--card-bg);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.list-group-item:last-child {
+    margin-bottom: 0;
+}
+
+.list-group-item:hover {
+    background-color: #f0f2f5;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.list-group-item strong {
+    font-size: 1.1rem;
+    color: var(--primary-color);
+}
+
+.badge {
+    padding: 0.6em 0.9em;
+    font-size: 0.9em;
+    border-radius: 50rem; /* Pill shape */
+    font-weight: 600;
+}
+
+/* --- Admin Panel Specifics --- */
+.card-header {
+    background-color: var(--secondary-color); /* Dark header for admin cards */
+    color: var(--text-color-light);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1.2rem;
+    border-top-left-radius: var(--border-radius-lg) !important;
+    border-top-right-radius: var(--border-radius-lg) !important;
+    padding: 1.2rem 1.5rem;
+}
+
+.card-header.bg-primary {
+    background-color: var(--primary-color) !important;
+}
+
+.card-header.bg-warning {
+    background-color: #ffc107 !important;
+    color: var(--text-color-dark);
+}
+
+.table {
+    border-radius: var(--border-radius-md);
+    overflow: hidden; /* For rounded corners on table */
+    border: 1px solid #dee2e6;
+}
+
+.table thead {
+    background-color: #e9ecef;
+    color: var(--secondary-color);
+}
+
+.table th, .table td {
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.modal-content {
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--card-shadow);
+}
+
+.modal-header {
+    border-top-left-radius: var(--border-radius-lg);
+    border-top-right-radius: var(--border-radius-lg);
+}
+
+/* --- Alerts --- */
+.alert {
+    border-radius: var(--border-radius-md);
+    padding: 1rem 1.5rem;
+    font-weight: 500;
+}
+
+/* --- Footer --- */
+footer {
+    background-color: var(--secondary-color);
+    color: var(--text-color-light);
+    padding: 1.5rem 0;
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 3rem;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.2rem;
+    }
+    h2 {
+        font-size: 1.8rem;
+    }
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
+    .navbar-nav .nav-link {
+        margin-left: 0;
+        text-align: center;
+    }
+    .movie-poster {
+        height: 300px;
+    }
+    .card-body {
+        padding: 1rem;
+    }
+    .card-title {
+        font-size: 1.3rem;
+    }
+    .btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    .card-img-top.movie-poster {
+        height: 250px;
+    }
+    .list-group-item {
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+    .list-group-item .badge {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    .list-group-item .btn {
+        width: 100%;
+        margin-top: 0.75rem;
+    }
+}
+
+/* Styles for Social Icons in Footer */
+.social-icons .social-icon-link {
+    display: inline-block;
+    width: 40px; /* Lebar area klik */
+    height: 40px; /* Tinggi area klik */
+    line-height: 40px; /* Pusat vertikal ikon */
+    border-radius: 50%; /* Membuat lingkaran */
+    background-color: rgba(255, 255, 255, 0.1); /* Latar belakang transparan */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    text-decoration: none; /* Hilangkan garis bawah */
+}
+
+.social-icons .social-icon-link:hover {
+    background-color: var(--primary-color); /* Warna latar belakang saat di-hover */
+    transform: translateY(-3px); /* Efek naik sedikit saat di-hover */
+}
+
+.social-icons i {
+    color: white; /* Warna ikon putih */
+}
