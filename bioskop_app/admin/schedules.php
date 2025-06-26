@@ -147,49 +147,18 @@ $schedules = $stmt_schedules->fetchAll(PDO::FETCH_ASSOC);
                                 <td><?php echo htmlspecialchars($schedule['cinema_hall']); ?></td>
                                 <td>Rp <?php echo number_format($schedule['price'], 0, ',', '.'); ?></td>
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editScheduleModal<?php echo $schedule['schedule_id']; ?>">Edit</button>
+                                    <button type="button" class="btn btn-sm btn-warning edit-schedule-btn"
+                                            data-bs-toggle="modal" data-bs-target="#editScheduleModal"
+                                            data-schedule-id="<?php echo htmlspecialchars($schedule['schedule_id']); ?>"
+                                            data-movie-id="<?php echo htmlspecialchars($schedule['movie_id']); ?>"
+                                            data-show-time="<?php echo date('Y-m-d\TH:i', strtotime($schedule['show_time'])); ?>"
+                                            data-cinema-hall="<?php echo htmlspecialchars($schedule['cinema_hall']); ?>"
+                                            data-price="<?php echo htmlspecialchars($schedule['price']); ?>">
+                                        Edit
+                                    </button>
                                     <a href="schedules.php?delete_id=<?php echo $schedule['schedule_id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus jadwal ini?');">Hapus</a>
                                 </td>
                             </tr>
-
-                            <div class="modal fade" id="editScheduleModal<?php echo $schedule['schedule_id']; ?>" tabindex="-1" aria-labelledby="editScheduleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header bg-warning text-white">
-                                            <h5 class="modal-title" id="editScheduleModalLabel">Edit Jadwal</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form method="POST">
-                                                <input type="hidden" name="schedule_id" value="<?php echo htmlspecialchars($schedule['schedule_id']); ?>">
-                                                <div class="mb-3">
-                                                    <label for="edit_movie_id_<?php echo $schedule['schedule_id']; ?>" class="form-label">Film</label>
-                                                    <select class="form-select" id="edit_movie_id_<?php echo $schedule['schedule_id']; ?>" name="movie_id" required>
-                                                        <?php foreach ($movies_list as $movie): ?>
-                                                            <option value="<?php echo htmlspecialchars($movie['movie_id']); ?>" <?php echo ($movie['movie_id'] == $schedule['movie_id']) ? 'selected' : ''; ?>>
-                                                                <?php echo htmlspecialchars($movie['title']); ?>
-                                                            </option>
-                                                        <?php endforeach; ?>
-                                                    </select>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="edit_show_time_<?php echo $schedule['schedule_id']; ?>" class="form-label">Waktu Tayang</label>
-                                                    <input type="datetime-local" class="form-control" id="edit_show_time_<?php echo $schedule['schedule_id']; ?>" name="show_time" value="<?php echo date('Y-m-d\TH:i', strtotime($schedule['show_time'])); ?>" required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="edit_cinema_hall_<?php echo $schedule['schedule_id']; ?>" class="form-label">Studio Bioskop</label>
-                                                    <input type="text" class="form-control" id="edit_cinema_hall_<?php echo $schedule['schedule_id']; ?>" name="cinema_hall" value="<?php echo htmlspecialchars($schedule['cinema_hall']); ?>" required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="edit_price_<?php echo $schedule['schedule_id']; ?>" class="form-label">Harga Tiket (Rp)</label>
-                                                    <input type="number" step="0.01" class="form-control" id="edit_price_<?php echo $schedule['schedule_id']; ?>" name="price" value="<?php echo htmlspecialchars($schedule['price']); ?>" required min="0">
-                                                </div>
-                                                <button type="submit" name="edit_schedule" class="btn btn-warning">Update Jadwal</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -198,4 +167,68 @@ $schedules = $stmt_schedules->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 
+<div class="modal fade" id="editScheduleModal" tabindex="-1" aria-labelledby="editScheduleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-white">
+                <h5 class="modal-title" id="editScheduleModalLabel">Edit Jadwal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editScheduleForm" method="POST">
+                    <input type="hidden" name="schedule_id" id="edit_schedule_id">
+                    <div class="mb-3">
+                        <label for="edit_movie_id" class="form-label">Film</label>
+                        <select class="form-select" id="edit_movie_id" name="movie_id" required>
+                            <?php foreach ($movies_list as $movie): ?>
+                                <option value="<?php echo htmlspecialchars($movie['movie_id']); ?>">
+                                    <?php echo htmlspecialchars($movie['title']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_show_time" class="form-label">Waktu Tayang</label>
+                        <input type="datetime-local" class="form-control" id="edit_show_time" name="show_time" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_cinema_hall" class="form-label">Studio Bioskop</label>
+                        <input type="text" class="form-control" id="edit_cinema_hall" name="cinema_hall" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_price" class="form-label">Harga Tiket (Rp)</label>
+                        <input type="number" step="0.01" class="form-control" id="edit_price" name="price" required min="0">
+                    </div>
+                    <button type="submit" name="edit_schedule" class="btn btn-warning">Update Jadwal</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <?php include '../includes/footer.php'; ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var editScheduleModal = document.getElementById('editScheduleModal');
+    editScheduleModal.addEventListener('show.bs.modal', function (event) {
+        // Tombol yang memicu modal
+        var button = event.relatedTarget;
+
+        // Ekstrak informasi dari atribut data-*
+        var scheduleId = button.getAttribute('data-schedule-id');
+        var movieId = button.getAttribute('data-movie-id');
+        var showTime = button.getAttribute('data-show-time');
+        var cinemaHall = button.getAttribute('data-cinema-hall');
+        var price = button.getAttribute('data-price');
+
+        // Perbarui konten modal.
+        var modalForm = editScheduleModal.querySelector('#editScheduleForm');
+        modalForm.querySelector('#edit_schedule_id').value = scheduleId;
+        modalForm.querySelector('#edit_movie_id').value = movieId;
+        modalForm.querySelector('#edit_show_time').value = showTime;
+        modalForm.querySelector('#edit_cinema_hall').value = cinemaHall;
+        modalForm.querySelector('#edit_price').value = price;
+    });
+});
+</script>
