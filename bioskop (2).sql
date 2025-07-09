@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 26 Jun 2025 pada 04.35
--- Versi server: 10.4.32-MariaDB
--- Versi PHP: 8.2.12
+-- Generation Time: Jul 09, 2025 at 10:07 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -23,7 +23,7 @@ SET time_zone = "+00:00";
 
 DELIMITER $$
 --
--- Prosedur
+-- Procedures
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `AddBooking` (IN `p_schedule_id` INT, IN `p_customer_name` VARCHAR(255), IN `p_customer_email` VARCHAR(255), IN `p_num_tickets` INT)   BEGIN
     DECLARE v_total_price DECIMAL(10,2);
@@ -33,7 +33,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `AddBooking` (IN `p_schedule_id` INT
 END$$
 
 --
--- Fungsi
+-- Functions
 --
 CREATE DEFINER=`root`@`localhost` FUNCTION `CalculateTotalPrice` (`p_schedule_id` INT, `p_num_tickets` INT) RETURNS DECIMAL(10,2) DETERMINISTIC BEGIN
     DECLARE v_price DECIMAL(10,2);
@@ -46,7 +46,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `bookings`
+-- Table structure for table `bookings`
 --
 
 CREATE TABLE `bookings` (
@@ -60,11 +60,21 @@ CREATE TABLE `bookings` (
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `bookings`
+--
+
+INSERT INTO `bookings` (`booking_id`, `schedule_id`, `customer_name`, `customer_email`, `num_tickets`, `total_price`, `booking_date`, `user_id`) VALUES
+(10, 7, 'biasa', '123456@123456.com', 1, 450000.00, '2025-07-10 00:39:51', 10),
+(11, 7, 'biasa', '123456@123456.com', 1, 450000.00, '2025-07-10 00:49:17', 10),
+(12, 8, 'biasa', '123456@123456.com', 1, 40000.00, '2025-07-10 00:53:22', 10),
+(13, 8, 'biasa', '123456@123456.com', 150, 6000000.00, '2025-07-10 01:17:55', 10);
+
 -- --------------------------------------------------------
 
 --
--- Stand-in struktur untuk tampilan `daily_sales_summary`
--- (Lihat di bawah untuk tampilan aktual)
+-- Stand-in structure for view `daily_sales_summary`
+-- (See below for the actual view)
 --
 CREATE TABLE `daily_sales_summary` (
 `sales_date` date
@@ -75,7 +85,7 @@ CREATE TABLE `daily_sales_summary` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `movies`
+-- Table structure for table `movies`
 --
 
 CREATE TABLE `movies` (
@@ -88,16 +98,17 @@ CREATE TABLE `movies` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `movies`
+-- Dumping data for table `movies`
 --
 
 INSERT INTO `movies` (`movie_id`, `title`, `genre`, `duration`, `description`, `poster_url`) VALUES
-(4, 'KKN DI DESA PENARI', 'Horror, 18+', 132, 'Film ini berdasarkan kisah dongeng', 'https://cdn.antaranews.com/cache/1200x800/2022/05/12/IMG_20220512_135230_013.jpg');
+(4, 'KKN DI DESA PENARI', 'Horror, 18+', 132, 'Film ini berdasarkan kisah dongeng', 'https://upload.wikimedia.org/wikipedia/id/b/b7/KKN_di_Desa_Penari.jpg'),
+(5, 'Superman', 'Adventure', 129, '\"Superman,\" film layar lebar pertama DC Studios, siap melesat ke bioskop di seluruh dunia Juli ini dari Warner Bros. Pictures. Dengan gaya khasnya, James Gunn menggarap pahlawan super orisinal ini di DC Universe yang baru, dengan perpaduan unik antara aksi epik, humor, dan hati, menghadirkan Superman yang didorong oleh kasih sayang dan keyakinan bawaan akan kebaikan umat manusia.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyDiAf5rnHP0PzIBVsCny_aZSefrMsrUWwsQ&s');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `schedules`
+-- Table structure for table `schedules`
 --
 
 CREATE TABLE `schedules` (
@@ -109,16 +120,17 @@ CREATE TABLE `schedules` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `schedules`
+-- Dumping data for table `schedules`
 --
 
 INSERT INTO `schedules` (`schedule_id`, `movie_id`, `show_time`, `cinema_hall`, `price`) VALUES
-(7, 4, '2025-06-26 09:30:00', 'NENEK CGV', 450000.00);
+(7, 4, '2025-06-26 09:30:00', 'NENEK CGV', 450000.00),
+(8, 5, '2025-07-22 00:52:00', 'CGV Nenek', 40000.00);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -131,12 +143,11 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`user_id`, `username`, `password`, `email`, `role`, `created_at`) VALUES
-(7, 'kiee123', '$2y$10$G7ff3MORbpgFH0tIsW3E8OYOoAxyuEEbAP9qjMb1GVItUPVuPpOt2', 'kiee@gmail.com', 'admin', '2025-06-26 08:46:49'),
-(8, 'admin_master', '$2y$10$29h/chwVfo70UarZR6Z4JO/Y/4CMGqcM/Uo9/hxA7R9m6CLsdsYTe', '123@123.com', 'user', '2025-06-26 08:47:29'),
+(7, 'arif', '$2y$10$G7ff3MORbpgFH0tIsW3E8OYOoAxyuEEbAP9qjMb1GVItUPVuPpOt2', 'arif@gmail.com', 'admin', '2025-06-26 08:46:49'),
 (9, 'rizkie', '$2y$10$INbkNVl5q4yig7BgaMSq0ekguTw3jDC8CRNY471N9mWJYDaquq7v2', 'rizkie123@gmail.com', 'admin', '2025-06-26 08:50:38'),
 (10, 'biasa', '$2y$10$HE8ChXukh8EQL7TM6c4vZ.uWCc9.xRH0yVjwJd3ULDbGajb8Pb2PS', '123456@123456.com', 'user', '2025-06-26 08:51:52'),
 (11, 'adminrizkie', '$2y$10$pI8Q0NiXFUZ3eiVtviMbrOqWQ1gJPOfbRCCoN2zv5dv49qcN/.vkK', 'rizkieadmin@admin.com', 'admin', '2025-06-26 09:28:48');
@@ -144,7 +155,7 @@ INSERT INTO `users` (`user_id`, `username`, `password`, `email`, `role`, `create
 -- --------------------------------------------------------
 
 --
--- Struktur untuk view `daily_sales_summary`
+-- Structure for view `daily_sales_summary`
 --
 DROP TABLE IF EXISTS `daily_sales_summary`;
 
@@ -155,7 +166,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 
 --
--- Indeks untuk tabel `bookings`
+-- Indexes for table `bookings`
 --
 ALTER TABLE `bookings`
   ADD PRIMARY KEY (`booking_id`),
@@ -163,20 +174,20 @@ ALTER TABLE `bookings`
   ADD KEY `fk_user_booking` (`user_id`);
 
 --
--- Indeks untuk tabel `movies`
+-- Indexes for table `movies`
 --
 ALTER TABLE `movies`
   ADD PRIMARY KEY (`movie_id`);
 
 --
--- Indeks untuk tabel `schedules`
+-- Indexes for table `schedules`
 --
 ALTER TABLE `schedules`
   ADD PRIMARY KEY (`schedule_id`),
   ADD KEY `idx_schedule_movie_id` (`movie_id`);
 
 --
--- Indeks untuk tabel `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`),
@@ -184,46 +195,46 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `bookings`
+-- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT untuk tabel `movies`
+-- AUTO_INCREMENT for table `movies`
 --
 ALTER TABLE `movies`
-  MODIFY `movie_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `movie_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT untuk tabel `schedules`
+-- AUTO_INCREMENT for table `schedules`
 --
 ALTER TABLE `schedules`
-  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT untuk tabel `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `bookings`
+-- Constraints for table `bookings`
 --
 ALTER TABLE `bookings`
   ADD CONSTRAINT `bookings_ibfk_1` FOREIGN KEY (`schedule_id`) REFERENCES `schedules` (`schedule_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_user_booking` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `schedules`
+-- Constraints for table `schedules`
 --
 ALTER TABLE `schedules`
   ADD CONSTRAINT `schedules_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `movies` (`movie_id`) ON DELETE CASCADE;
