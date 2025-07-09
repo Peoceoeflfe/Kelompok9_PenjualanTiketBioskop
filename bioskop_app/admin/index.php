@@ -28,6 +28,31 @@ $stmt_most_sold_movie = $pdo->query("
 ");
 $most_sold_movie = $stmt_most_sold_movie->fetch(PDO::FETCH_ASSOC);
 
+// Query untuk Film Paling Sedikit Ditonton
+$stmt_least_sold_movie = $pdo->query("
+    SELECT m.title, SUM(b.num_tickets) AS tickets_sold
+    FROM bookings b
+    JOIN schedules s ON b.schedule_id = s.schedule_id
+    JOIN movies m ON s.movie_id = m.movie_id
+    GROUP BY m.title
+    ORDER BY tickets_sold ASC
+    LIMIT 1
+");
+$least_sold_movie = $stmt_least_sold_movie->fetch(PDO::FETCH_ASSOC); // Perbaikan di sini
+
+// Query untuk Rata-rata Tiket Terjual per Film
+$stmt_avg_tickets_per_movie = $pdo->query("
+    SELECT AVG(tickets_sold_per_movie) AS average_tickets
+    FROM (
+        SELECT SUM(b.num_tickets) AS tickets_sold_per_movie
+        FROM bookings b
+        JOIN schedules s ON b.schedule_id = s.schedule_id
+        GROUP BY s.movie_id
+    ) AS movie_sales_summary
+");
+$avg_tickets_per_movie = $stmt_avg_tickets_per_movie->fetch(PDO::FETCH_ASSOC)['average_tickets'];
+
+
 // Menggunakan VIEW
 $stmt_daily_sales = $pdo->query("SELECT * FROM daily_sales_summary ORDER BY sales_date DESC LIMIT 5");
 $daily_sales = $stmt_daily_sales->fetchAll(PDO::FETCH_ASSOC);
@@ -58,6 +83,29 @@ $daily_sales = $stmt_daily_sales->fetchAll(PDO::FETCH_ASSOC);
                 <h5 class="card-title">Film Terlaris</h5>
                 <p class="card-text fs-3">
                     <?php echo $most_sold_movie ? htmlspecialchars($most_sold_movie['title']) . " (" . $most_sold_movie['tickets_sold'] . " tiket)" : 'N/A'; ?>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card text-white bg-warning shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Film Paling Sedikit Ditonton</h5>
+                <p class="card-text fs-3">
+                    <?php echo $least_sold_movie ? htmlspecialchars($least_sold_movie['title']) . " (" . $least_sold_movie['tickets_sold'] . " tiket)" : 'N/A'; ?>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card text-white bg-danger shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Rata-rata Tiket Terjual per Film</h5>
+                <p class="card-text fs-3">
+                    <?php echo $avg_tickets_per_movie ? number_format($avg_tickets_per_movie, 2, ',', '.') : 'N/A'; ?>
                 </p>
             </div>
         </div>
